@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Amortization Calculator</title>
+</head>
+
+<body>
+    <h2>Loan and Amortization Calculator</h2>
+    <form id="loanForm">
+        <table cellpadding="10">
+            <tr>
+                <th>Borrowing Year</th>
+                <th>Loan Ammount</th>
+            </tr>
+            <td><input type="number" id="borrowingYear1" onchange="coolEpicYearChange()" required></td>
+            <td><input type="number" id="loanAmt1" step="0.01" required></td>
+            <tr>
+                <td><input type="number" id="borrowingYear2" disabled></td>
+                <td><input type="number" id="loanAmt2" step="0.01" required></td>
+            </tr>
+            <tr>
+                <td><input type="number" id="borrowingYear3" disabled></td>
+                <td><input type="number" id="loanAmt3" step="0.01" required></td>
+            </tr>
+            <tr>
+                <td><input type="number" id="borrowingYear4" disabled></td>
+                <td><input type="number" id="loanAmt4" step="0.01" required></td>
+            </tr>
+        </table>
+        <button type="button" onclick="calculateDebt()">Calculate</button>
+    </form>
+    <h1>Amortization Schedule</h1>
+    <table cellpadding="10" id="schedule">
+        <tr>
+            <th>Year</th>
+            <th>Payment</th>
+            <th>Interest</th>
+            <th>Principal</th>
+            <th>Remaining Debt</th>
+        </tr>
+    </table>
+    <button type="button" onclick="calculateDebt()">Calculate</button>
+    <script>
+        function calculateDebt() {
+            const borrowingYear1 = parseInt(document.getElementById('borrowingYear1').value);
+            const loanAmt1 = parseFloat(document.getElementById('loanAmt1').value);
+            const loanAmt2 = parseFloat(document.getElementById('loanAmt2').value);
+            const loanAmt3 = parseFloat(document.getElementById('loanAmt3').value);
+            const loanAmt4 = parseFloat(document.getElementById('loanAmt4').value);
+            const interestRate = 0.05; // 5% interest
+            let totalDebt = 
+                loanAmt1 * Math.pow(1 + interestRate, 3) +
+                loanAmt2 * Math.pow(1 + interestRate, 2) +
+                loanAmt3 * Math.pow(1 + interestRate, 1) +
+                loanAmt4; // Last loan has no interest yet
+            const repaymentYears = 10;
+            const amortization = (totalDebt * interestRate) / (1 - Math.pow(1 + interestRate, -repaymentYears));
+            document.getElementById('totalDebt').textContent = `Total Debt: $${totalDebt.toFixed(2)}`;
+            document.getElementById('amortization').textContent = `Annual Amortization Payments: $${amortization.toFixed(2)}`;
+        }
+        function coolEpicYearChange() {
+            const Year1 = parseInt(document.getElementById('borrowingYear1').value);
+            document.getElementById('borrowingYear2').value = Year1 + 1;
+            document.getElementById('borrowingYear3').value = Year1 + 2;
+            document.getElementById('borrowingYear4').value = Year1 + 3;
+        }
+    </script>
+</body>
+
+</html>
