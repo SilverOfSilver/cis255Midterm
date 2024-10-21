@@ -57,28 +57,30 @@
                 loanAmt4; // Last loan has no interest yet
             const repaymentYears = 10;
             const amortization = (totalDebt * interestRate) / (1 - Math.pow(1 + interestRate, -repaymentYears));
-            console.log("total debt "+totalDebt);
-            console.log("Amorticaaascpjksfoiaur "+amortization);
+
             const payTable = document.getElementById("schedule");
+            while(payTable.rows.length > 1){
+                payTable.deleteRow(1);
+            }
             let row = document.createElement("tr");
             let td1 = document.createElement("td");
             let td2 = document.createElement("td");
             let td3 = document.createElement("td");
             let td4 = document.createElement("td");
             let td5 = document.createElement("td");
+            row.appendChild(td1);
+            row.appendChild(td2);
+            row.appendChild(td3);
+            row.appendChild(td4);
+            row.appendChild(td5);
             td2.textContent = `$${amortization.toFixed(2)}`
             for (let i = 1; i <= 10; i++) {
-                console.log(i);
                 td1.textContent = ("Year "+i);
                 td3.textContent = `$${(totalDebt*interestRate).toFixed(2)}`;
                 td4.textContent = `$${(amortization-(totalDebt*interestRate)).toFixed(2)}`;
                 totalDebt -= (amortization-(totalDebt*interestRate));
                 td5.textContent = `$${totalDebt.toFixed(2)}`;
-                row.appendChild(td1);
-                row.appendChild(td2);
-                row.appendChild(td3);
-                row.appendChild(td4);
-                row.appendChild(td5);
+                payTable.appendChild(row.cloneNode(true))
             }
         }
         function coolEpicYearChange() {
